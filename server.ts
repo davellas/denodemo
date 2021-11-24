@@ -21,7 +21,11 @@ async function handle(conn: Deno.Conn) {
         return await requestEvent.respondWith(setupWs(request));
       case "/streaming":
         return await requestEvent.respondWith(
-          new Response(createReadableByteStream())
+          new Response(createReadableByteStream(), {
+              headers: {
+                  'content-type': 'text/html'
+              }
+          })
         );
       default:
         return await requestEvent.respondWith(defaultHandler());

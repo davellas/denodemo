@@ -67,14 +67,18 @@ export const createDenoReader = (): Deno.Reader => {
 export const streamingRouter = new Router();
 streamingRouter
   .get('/async-generator', (context) => {
+    context.response.type = 'html';
     context.response.body = createAsyncGenerator();
   })
   .get('/readable-stream', (context) => {
+    context.response.type = 'html';
     context.response.body = createReadableStream();
   })
   .get('/reader', (context) => {
+    context.response.type = 'html';
     context.response.body = createDenoReader();
   })
   .get('/', (context) => {
+    context.response.type = 'html';
     context.response.body = createAsyncGenerator();
   });
