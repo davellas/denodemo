@@ -25,6 +25,9 @@ router
     context.response.headers.append("content-type", "application/json");
     context.response.body = newState;
   })
+  .get("/join", context => {
+    context.response.body = game.join();
+  })
   .get("/book/:id", (context) => {
     if (books.has(context?.params?.id)) {
       context.response.body = books.get(context.params.id);

@@ -7,7 +7,22 @@ export class Game {
         this.state = INITIAL_STATE;
     }
 
+    public join() {
+        if (this.state.players.length >= 2) {
+            throw new Error(`Players already joined`);
+        }
+        if (this.state.players.find(el => el === 1)) {
+            this.state.players.push(2);
+            return 2;
+        }
+        this.state.players.push(1);
+        return 1;
+    }
+
     public makeMove(id: number, cell: number): State {
+        if (!this.state.players.find(el => el === id)) {
+            throw new Error(`Player ${id} didn't join the game yet`);
+        }
         if (id !== this.state.turn) {
             throw new Error(`Now its player ${this.state.turn} turn`);
         }
