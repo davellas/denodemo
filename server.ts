@@ -1,4 +1,5 @@
 import { setupWs } from "./sockets/server/socketServer.ts";
+import { createReadableByteStream } from "./streaming.ts";
 
 const defaultHandler = () => {
   return new Response("Hello World\n");
@@ -18,6 +19,8 @@ async function handle(conn: Deno.Conn) {
           );
         }
         return await requestEvent.respondWith(setupWs(request));
+      case "/streaming":
+          await requestEvent.respondWith(new Response(createReadableByteStream()));
       default:
         await requestEvent.respondWith(defaultHandler());
     }
