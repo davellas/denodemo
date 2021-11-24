@@ -26,6 +26,11 @@ router
     context.response.headers.append("content-type", "application/json");
     context.response.body = newState;
   })
+  .get("/reset", context => {
+    const newState = game.resetGame();
+    context.response.headers.append("content-type", "application/json");
+    context.response.body = newState;
+  })
   .get("/join", context => {
     context.response.body = game.join();
   })

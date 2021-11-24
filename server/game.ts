@@ -3,8 +3,9 @@ import { INITIAL_STATE, PlayerId, State } from "./state.ts";
 export class Game {
     private state: State = INITIAL_STATE;
 
-    public resetGame() {
+    public resetGame(): State {
         this.state = INITIAL_STATE;
+        return this.state;
     }
 
     public join() {
