@@ -9,7 +9,8 @@ export class Game {
 
     public join() {
         if (this.state.players.length >= 2) {
-            throw new Error(`Players already joined`);
+            // already 2 players, let's just return 2;
+            return 2;
         }
         if (this.state.players.find(el => el === 1)) {
             this.state.players.push(2);
