@@ -6,6 +6,7 @@ const connectedClient = (ws: WebSocket) => {
     console.log("Connected to server ...");
     messageClient(ws, 'Welcome!');
 }
+
 const messageClient = (ws:WebSocket, data:string) => {
     console.log("SERVER >> " + data);
     const reply = prompt("Client >> ") || "No reply";
