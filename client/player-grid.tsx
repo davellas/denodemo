@@ -2,13 +2,17 @@ import React, { useState } from 'https://jspm.dev/react';
 
 import { CellChangedResponse, GameState } from "./types.ts"
 import { PlayerGridCell } from "./player-grid-cell.tsx"
-import "./player-grid.css"
+import { connectedClient, messageClient } from "../sockets/client/client.ts"
+
+// import "./player-grid.css"
 
 type PlayerGridProps = {
 	playerNumber: number
 }
 
-
+const initGameState: GameState = {
+	cellValues: [0,0,0, 0,0,0, 0,0,0]
+}
 
 const mapCellStringToInt = (s: string) => {
 	if (s == "") return 0
@@ -17,17 +21,25 @@ const mapCellStringToInt = (s: string) => {
 	else throw new Error(`Illegal symbol for tic-tac-toe: "${s}"`)
 }
 
-export const PlayerGrid = (props: PlayerGridProps) => {
+export const PlayerGrid = (props: PlayerGridProps): any => {
 
-	const [gameState, setGameState] = useState({ cellValues: [0,0,0, 0,0,0, 0,0,0] })
+	const [gameState, setGameState] = useState(initGameState)
+	// const [webSocket, setWebSocket] = useState(new WebSocket('ws://localhost:8000/ws'))
+
+	// const initWSConnection = () => {
+	// 	console.log(`Initialize ws for client: Player #${props.playerNumber}`)
+	// 	connectedClient(webSocket)
+	// 	messageClient(webSocket, "What's happening over here?")
+	// }
+
+	// Reinstate when ws server can be run:
+	// initWSConnection()
 
 	const cellChangedCB = (resp: CellChangedResponse) => {
 		console.log(`Player #${props.playerNumber} clicked cell! response = ${resp}`)
 		const newGameState = gameState as GameState
 		newGameState.cellValues[resp.cellNumber] = mapCellStringToInt(resp.value)
 		setGameState(newGameState)
-
-		// TODO: send new gameState to backend via websocket
 	}
 
 	const getPlayerGridCell = (cellNumber: number) => {
