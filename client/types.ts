@@ -3,7 +3,7 @@ export type GameState = {
 }
 
 export type CellChangedResponse = {
-	playerNumber: number,
-	cellNumber: number,
-	value: string
-}
+  playerNumber: number;
+  cellNumber: number;
+  value: string;
+};
