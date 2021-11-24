@@ -29,5 +29,5 @@ const port = 8001;
 
 console.log(`Listening on http://localhost:${port}`);
 await serve(handler, {
-    addr: `:${port}`,
+  addr: `:${port}`,
 });

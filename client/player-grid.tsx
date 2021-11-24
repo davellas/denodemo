@@ -5,8 +5,8 @@ import { PlayerGridCell } from "./player-grid-cell.tsx"
 import "./player-grid.css"
 
 type PlayerGridProps = {
-	playerNumber: number
-}
+  playerNumber: number;
+};
 
 
 
