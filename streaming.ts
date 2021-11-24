@@ -50,23 +50,31 @@ export const createReadableStream = (): ReadableStream<string> => {
   return iteratorToStream(asyncGenerator);
 };
 
-export const createDenoReader = (): Deno.Reader => {
+export const createReadableByteStream = (): ReadableStream<Uint8Array> => {
   const readableStringStream = createReadableStream();
   const readableByteStream = readableStringStream.pipeThrough(
     new AnyToU8Stream(),
   );
+  return readableByteStream;
+};
+
+export const createDenoReader = (): Deno.Reader => {
+  const readableByteStream = createReadableByteStream();
   const reader = readerFromStreamReader(readableByteStream.getReader());
   return reader;
 };
 
 export const streamingRouter = new Router();
-streamingRouter.get('/async-generator', context => {
+streamingRouter
+  .get('/async-generator', (context) => {
     context.response.body = createAsyncGenerator();
-}).get('/readable-stream', context => {
+  })
+  .get('/readable-stream', (context) => {
     context.response.body = createReadableStream();
-}).get('/reader', context => {
+  })
+  .get('/reader', (context) => {
     context.response.body = createDenoReader();
-}).get('/', context => {
+  })
+  .get('/', (context) => {
     context.response.body = createAsyncGenerator();
-})
-
+  });
