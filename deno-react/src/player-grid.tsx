@@ -24,8 +24,6 @@ const mapCellStringToInt = (s: string) => {
 
 const host = 'http://localhost:8081'
 
-
-
 export const PlayerGrid = (props: PlayerGridProps): any => {
 
 	const [gameState, setGameState] = useState(initGameState)
@@ -33,13 +31,13 @@ export const PlayerGrid = (props: PlayerGridProps): any => {
 	const [playerNumber, setPlayerNumber] = useState(-1)
 
 	const join = async () => {
+		console.log("joined?")
 		try {
-		const result = await fetch(`${host}/join`)
-		setPlayerNumber(parseInt(await result.text()))
-		}catch (err) {
+			const result = await fetch(`${host}/join`)
+			setPlayerNumber(parseInt(await result.text()))
+		} catch (err) {
 			console.log(err)
 		}
-
 	}
 	// const initWSConnection = () => {
 	// 	console.log(`Initialize ws for client: Player #${props.playerNumber}`)
@@ -70,7 +68,8 @@ export const PlayerGrid = (props: PlayerGridProps): any => {
 	}
 
 	return (
-		<div className="grid">
+		<div>
+		{playerNumber > -1 && <div className="grid">
 			<div>PlayerNumber: {playerNumber}</div>
 			<div className="grid-row grid-row-1">
 				{Array.from(Array(3).keys()).map(number => <PlayerGridCell key={number} cellNumber={number} playerNumber={props.playerNumber} callback={cellChangedCB} />)}
@@ -83,6 +82,8 @@ export const PlayerGrid = (props: PlayerGridProps): any => {
 			<div className="grid-row grid-row-2">
 			{Array.from(Array(3).keys()).map(number => <PlayerGridCell key={number+6} cellNumber={number+6} playerNumber={props.playerNumber} callback={cellChangedCB} />)}
 			</div>
+		</div>}
+		{playerNumber == -1 && <div>Still joining game</div>}
 		</div>
 	)
 }

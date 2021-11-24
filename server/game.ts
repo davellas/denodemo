@@ -3,11 +3,28 @@ import { INITIAL_STATE, PlayerId, State } from "./state.ts";
 export class Game {
     private state: State = INITIAL_STATE;
 
-    public resetGame() {
+    public resetGame(): State {
         this.state = INITIAL_STATE;
+        return this.state;
+    }
+
+    public join() {
+        if (this.state.players.length >= 2) {
+            // already 2 players, let's just return 2;
+            return 2;
+        }
+        if (this.state.players.find(el => el === 1)) {
+            this.state.players.push(2);
+            return 2;
+        }
+        this.state.players.push(1);
+        return 1;
     }
 
     public makeMove(id: number, cell: number): State {
+        if (!this.state.players.find(el => el === id)) {
+            throw new Error(`Player ${id} didn't join the game yet`);
+        }
         if (id !== this.state.turn) {
             throw new Error(`Now its player ${this.state.turn} turn`);
         }

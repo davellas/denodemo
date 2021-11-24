@@ -1,7 +1,7 @@
 import React from "https://jspm.dev/react";
 
 import pogo from "https://deno.land/x/pogo/main.ts";
-import { streamingHandler } from "./streaming.ts";
+import { createAsyncGenerator } from "./streaming.ts";
 import { PlayerGrid } from "./client/player-grid.tsx";
 
 const server = pogo.server({ port: 8000 });
