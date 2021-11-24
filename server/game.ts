@@ -1,10 +1,18 @@
-import { INITIAL_STATE, PlayerId, State } from "./state.ts";
+import { PlayerId, State } from "./state.ts";
 
 export class Game {
-    private state: State = {...INITIAL_STATE};
+    private state: State = {
+        players: [],
+        board: [],
+        turn: 1
+    }
 
     public resetGame(): State {
-        this.state = {...INITIAL_STATE};
+        this.state = {
+            players: [],
+            board: [],
+            turn: 1
+        };
         return this.state;
     }
 

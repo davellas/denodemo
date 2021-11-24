@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.115.1/http/server.ts";
 
 function handler(req: Request): Response {
   switch (new URL(req.url).pathname) {

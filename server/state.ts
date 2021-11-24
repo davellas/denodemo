@@ -5,9 +5,3 @@ export type State = {
 }
 
 export type PlayerId = 1 | 2;
-
-export const INITIAL_STATE: State = {
-    players: [],
-    board: [],
-    turn: 1
-}
