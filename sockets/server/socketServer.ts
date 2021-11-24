@@ -1,16 +1,14 @@
-import { streamingHandler } from '../../streaming.ts';
-
 const handleError = (e: Event | ErrorEvent) =>
   console.log(e instanceof ErrorEvent ? e.message : e.type);
 
-export const setupWs = (req: Request) => {
+export function setupWs(req: Request): Response{
   const { socket: ws, response } = Deno.upgradeWebSocket(req);
   ws.onopen = () => connected();
   ws.onmessage = (m) => message(ws, m.data);
   ws.onclose = () => logError('Disconnected from client ...');
   ws.onerror = (e) => handleError(e);
   return response;
-};
+}
 
 const logError = (msg: string) => {
   console.log(msg);
