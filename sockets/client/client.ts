@@ -2,25 +2,25 @@ const logErrorClient = (msg:string) => {
     console.log(msg);
     Deno.exit(1);
 };
-const handleConnectedClient = (ws: WebSocket) => {
+const connectedClient = (ws: WebSocket) => {
     console.log("Connected to server ...");
-    handleMessageClient(ws, 'Welcome!');
+    messageClient(ws, 'Welcome!');
 }
-const handleMessageClient = (ws:WebSocket, data:string) => {
+const messageClient = (ws:WebSocket, data:string) => {
     console.log("SERVER >> " + data);
     const reply = prompt("Client >> ") || "No reply";
     if (reply === "exit")
         return ws.close();
     ws.send(reply as string);
 }
-const handleErrorClient = (e:Event|ErrorEvent) => console.log(e instanceof ErrorEvent ? e.message : e.type);
+const errorClient = (e:Event|ErrorEvent) => console.log(e instanceof ErrorEvent ? e.message : e.type);
 console.log("Connecting to server ...");
 try {
-    const ws=new WebSocket("ws://localhost:9000");
-    ws.onopen=()=>handleConnectedClient(ws);
-    ws.onmessage=m=>handleMessageClient(ws, m.data);
+    const ws=new WebSocket("ws://localhost:8000/ws");
+    ws.onopen=()=>connectedClient(ws);
+    ws.onmessage=m=>messageClient(ws, m.data);
     ws.onclose=()=>logErrorClient("Disconnected from server ...");
-    ws.onerror=e=>handleErrorClient(e);
-} catch (err) {
-    logErrorClient("Failed to connect to server ... exiting");
+    ws.onerror=e=>errorClient(e);
+} catch (err: unknown) {
+    logErrorClient(`Failed to connect to server ... exiting with ${err}`);
 }

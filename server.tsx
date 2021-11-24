@@ -14,7 +14,7 @@ server.router.get('/react', () => {
     return <div>hello react</div>;
 });
 
-server.router.get('/streaming', streamingHandler);
+// server.router.get('/streaming', streamingHandler);
 
 console.log('Starting server...')
 
