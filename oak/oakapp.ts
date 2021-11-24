@@ -1,6 +1,9 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+import { Game } from "../server/game.ts";
 
 const books = new Map<string, any>();
+const game = new Game();
+
 books.set("1", {
   id: "1",
   title: "The Hound of the Baskervilles",
@@ -14,6 +17,13 @@ router
   })
   .get("/book", (context) => {
     context.response.body = Array.from(books.values());
+  })
+  .get("/move/:id/:cell", (context) => {
+    const id = parseInt(context.params.id, 10);
+    const cell = parseInt(context.params.cell, 10);
+    const newState = game.makeMove(id,cell);
+    context.response.headers.append("content-type", "application/json");
+    context.response.body = newState;
   })
   .get("/book/:id", (context) => {
     if (books.has(context?.params?.id)) {
