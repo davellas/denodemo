@@ -1,6 +1,6 @@
-import { readerFromStreamReader } from 'https://deno.land/std/streams/conversion.ts';
-import { delay } from 'https://deno.land/std@0.115.1/async/delay.ts';
-import { Handler } from 'https://deno.land/std@0.115.1/http/server.ts';
+import { readerFromStreamReader } from "https://deno.land/std/streams/conversion.ts";
+import { delay } from "https://deno.land/std@0.115.1/async/delay.ts";
+import { Handler } from "https://deno.land/std@0.115.1/http/server.ts";
 
 function iteratorToStream<T>(iterator: AsyncGenerator<T> | Iterator<T>) {
   return new ReadableStream<T>({
@@ -17,12 +17,12 @@ function iteratorToStream<T>(iterator: AsyncGenerator<T> | Iterator<T>) {
 }
 
 async function* lineGenerator() {
-  yield '<ul>\n';
+  yield "<ul>\n";
   for (let i = 0; i < 10; i++) {
     await delay(1e3);
     yield `<li>line ${i}</li>\n`;
   }
-  yield '</ul>\n';
+  yield "</ul>\n";
 }
 
 class AnyToU8Stream extends TransformStream {
@@ -32,7 +32,7 @@ class AnyToU8Stream extends TransformStream {
       transform: async (chunk: unknown, controller) => {
         chunk = await chunk;
         switch (typeof chunk) {
-          case 'object':
+          case "object":
             if (chunk === null) controller.terminate();
             controller.enqueue(this.#textencoder.encode(JSON.stringify(chunk)));
             break;
@@ -52,7 +52,7 @@ export const streamingHandler: Handler = (request, connInfo) => {
   );
   return new Response(readableStream, {
     headers: {
-      'content-type': 'text/html',
+      "content-type": "text/html",
     },
   });
 };

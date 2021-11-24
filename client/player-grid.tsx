@@ -7,8 +7,8 @@ import { connectedClient, messageClient } from "../sockets/client/client.ts"
 // import "./player-grid.css"
 
 type PlayerGridProps = {
-	playerNumber: number
-}
+  playerNumber: number;
+};
 
 const initGameState: GameState = {
 	cellValues: [0,0,0, 0,0,0, 0,0,0]
