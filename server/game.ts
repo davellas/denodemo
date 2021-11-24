@@ -1,13 +1,13 @@
 import { INITIAL_STATE, PlayerId, State } from "./state.ts";
 
-class Game {
+export class Game {
     private state: State = INITIAL_STATE;
 
     public resetGame() {
         this.state = INITIAL_STATE;
     }
 
-    public makeMove(id: number, cell: number) {
+    public makeMove(id: number, cell: number): State {
         if (id !== this.state.turn) {
             throw new Error(`Now its player ${this.state.turn} turn`);
         }
@@ -26,6 +26,7 @@ class Game {
         else {
             this.state.turn = id === 1 ? 2 : 1;
         }
+        return this.state;
 
     }
 
