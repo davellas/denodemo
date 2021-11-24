@@ -1,8 +1,6 @@
-import {
-  readerFromStreamReader,
-} from 'https://deno.land/std/streams/conversion.ts';
+import { readerFromStreamReader } from 'https://deno.land/std/streams/conversion.ts';
 import { delay } from 'https://deno.land/std@0.115.1/async/delay.ts';
-import { RouteHandler } from 'https://deno.land/x/pogo@v0.5.2/lib/types.ts';
+import { Handler } from 'https://deno.land/std@0.115.1/http/server.ts';
 
 function iteratorToStream<T>(iterator: AsyncGenerator<T> | Iterator<T>) {
   return new ReadableStream<T>({
@@ -47,10 +45,14 @@ class AnyToU8Stream extends TransformStream {
   }
 }
 
-export const streamingHandler: RouteHandler = () => {
+export const streamingHandler: Handler = (request, connInfo) => {
   const iterator = lineGenerator();
   const readableStream = iteratorToStream(iterator).pipeThrough(
     new AnyToU8Stream(),
   );
-  return readerFromStreamReader(readableStream.getReader());
+  return new Response(readableStream, {
+    headers: {
+      'content-type': 'text/html',
+    },
+  });
 };
