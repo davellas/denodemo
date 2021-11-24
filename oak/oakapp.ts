@@ -2,6 +2,8 @@ import { Application, Router } from 'https://deno.land/x/oak/mod.ts';
 import { streamingRouter } from "../streaming.ts";
 import { Game } from "../server/game.ts";
 
+import { oakCors } from "https://deno.land/x/cors/mod.ts";
+
 const books = new Map<string, any>();
 const game = new Game();
 
@@ -42,5 +44,10 @@ router
   .get('/streaming', streamingRouter.routes())
 
 export const app = new Application();
+app.use(
+  oakCors({
+    origin: "http://localhost:3000"
+  }),
+);
 app.use(router.routes());
 app.use(router.allowedMethods());

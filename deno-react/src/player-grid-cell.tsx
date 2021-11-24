@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { CellChangedResponse } from "./types";
 
+import "./player-grid.css"
+
 type PlayerGridCellProps = {
   cellNumber: number;
   playerNumber: number;
   callback: (p: CellChangedResponse) => void;
 };
-
-const format = (str: string) => {
-}
 
 const nextValues = (s: string) => {
   // Round-robin through possible values by clicking the cell:

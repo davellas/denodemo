@@ -10,4 +10,10 @@
 
 .grid-cell {
 	border: 1px solid black;
+	min-width: 100px;
+	min-height: 100px;
+
+	line-height:  80px;
+	text-align: center;
+	font-size: 80px;
 }

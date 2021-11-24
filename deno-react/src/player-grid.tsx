@@ -27,7 +27,7 @@ const host = 'http://localhost:8081'
 export const PlayerGrid = (props: PlayerGridProps): any => {
 
 	const [gameState, setGameState] = useState(initGameState)
-	const [webSocket, setWebSocket] = useState(new WebSocket('ws://localhost:8000/ws'))
+	// const [webSocket, setWebSocket] = useState(new WebSocket('ws://localhost:8000/ws'))
 	const [playerNumber, setPlayerNumber] = useState(-1)
 
 	const join = async () => {
@@ -52,12 +52,14 @@ export const PlayerGrid = (props: PlayerGridProps): any => {
 		join()
 	},[])
 
-
-	const cellChangedCB = (resp: CellChangedResponse) => {
+	const cellChangedCB = async (resp: CellChangedResponse) => {
 		console.log(`Player #${props.playerNumber} clicked cell! response = ${resp}`)
 		const newGameState = gameState as GameState
 		newGameState.cellValues[resp.cellNumber] = mapCellStringToInt(resp.value)
 		setGameState(newGameState)
+
+		const result = await fetch(`${host}/move/${resp.playerNumber}/${resp.cellNumber}`)
+		console.log("resutlt:", result)
 	}
 
 	const getPlayerGridCell = (cellNumber: number) => {
